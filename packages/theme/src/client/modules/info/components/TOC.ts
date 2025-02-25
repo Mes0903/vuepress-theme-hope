@@ -2,7 +2,7 @@ import type { GetHeadersOptions } from "@vuepress/helper/client";
 import { useHeaders } from "@vuepress/helper/client";
 import { useToggle, watchImmediate } from "@vueuse/core";
 import type { PropType, SlotsType, VNode } from "vue";
-import { defineComponent, h, onMounted, ref, shallowRef } from "vue";
+import { defineComponent, h, onMounted, ref, shallowRef, toRef } from "vue";
 import type { PageHeader } from "vuepress/client";
 import { ClientOnly, RouteLink, useRoute } from "vuepress/client";
 
@@ -25,9 +25,10 @@ export default defineComponent({
     /**
      * Header options
      */
+    // [Mes]: 這邊應該要改，但不曉得怎麼改，現在 h1 一直吃不到 children
     options: {
       type: Object as PropType<GetHeadersOptions>,
-      default: () => ({ level: [1, 4] }),
+      levels: [1, 4],
     },
   },
 
@@ -37,8 +38,8 @@ export default defineComponent({
   }>,
 
   setup(props, { slots }) {
-    // const headerOptions = toRef(props, "options");
-    const headers = useHeaders({ levels: [1, 4] });
+    const headerOptions = toRef(props, "options");
+    const headers = useHeaders(headerOptions);
 
     const route = useRoute();
     const metaLocale = useMetaLocale();

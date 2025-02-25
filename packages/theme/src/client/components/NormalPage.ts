@@ -41,10 +41,8 @@ export default defineComponent({
       () => frontmatter.value.toc ?? themeLocale.value.toc ?? true,
     );
 
-    const headerLevels = computed<HeaderLevels>(() => [
-      1,
-      (frontmatter.value.headerDepth ?? themeLocale.value.headerDepth ?? 2) + 1,
-    ]);
+    // [Mes]: This control how many levels of headers will be shown in TOC
+    const headerLevels = computed<HeaderLevels>(() => [1, 4]);
 
     return (): VNode =>
       h(
