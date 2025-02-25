@@ -42,7 +42,7 @@ export default defineComponent({
     );
 
     const headerLevels = computed<HeaderLevels>(() => [
-      2,
+      1,
       (frontmatter.value.headerDepth ?? themeLocale.value.headerDepth ?? 2) + 1,
     ]);
 

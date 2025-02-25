@@ -2,7 +2,7 @@ import type { GetHeadersOptions } from "@vuepress/helper/client";
 import { useHeaders } from "@vuepress/helper/client";
 import { useToggle, watchImmediate } from "@vueuse/core";
 import type { PropType, SlotsType, VNode } from "vue";
-import { defineComponent, h, onMounted, ref, shallowRef, toRef } from "vue";
+import { defineComponent, h, onMounted, ref, shallowRef } from "vue";
 import type { PageHeader } from "vuepress/client";
 import { ClientOnly, RouteLink, useRoute } from "vuepress/client";
 
@@ -25,7 +25,10 @@ export default defineComponent({
     /**
      * Header options
      */
-    options: Object as PropType<GetHeadersOptions>,
+    options: {
+      type: Object as PropType<GetHeadersOptions>,
+      default: () => ({ level: [1, 4] }),
+    },
   },
 
   slots: Object as SlotsType<{
@@ -34,8 +37,9 @@ export default defineComponent({
   }>,
 
   setup(props, { slots }) {
-    const headerOptions = toRef(props, "options");
-    const headers = useHeaders(headerOptions);
+    // const headerOptions = toRef(props, "options");
+    const headers = useHeaders({ levels: [1, 4] });
+
     const route = useRoute();
     const metaLocale = useMetaLocale();
     const [isExpanded, toggleExpanded] = useToggle();
